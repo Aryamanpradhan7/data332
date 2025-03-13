@@ -1,0 +1,69 @@
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(readxl)
+library(tidyr)
+
+# Clear existing environment variables
+rm(list=ls())
+
+# Set working directory
+setwd('~/Documents/aryamanpradhan21/documents/r_projects/trucking')
+
+# Load truck data from multiple Excel files
+df_truck_0001 <- read_excel('truck data 0001.xlsx', sheet = 2, skip = 3, .name_repair = "universal")
+df_truck_0369 <- read_excel('truck data 0369.xlsx', sheet = 2, skip = 3, .name_repair = "universal")
+df_truck_1226 <- read_excel('truck data 1226.xlsx', sheet = 2, skip = 3, .name_repair = "universal")
+df_truck_1442 <- read_excel('truck data 1442.xlsx', sheet = 2, skip = 3, .name_repair = "universal")
+df_truck_1478 <- read_excel('truck data 1478.xlsx', sheet = 2, skip = 3, .name_repair = "universal")
+df_truck_1539 <- read_excel('truck data 1539.xlsx', sheet = 2, skip = 3, .name_repair = "universal")
+df_truck_1769 <- read_excel('truck data 1769.xlsx', sheet = 2, skip = 3, .name_repair = "universal")
+
+df_pay <- read_excel('Driver Pay Sheet.xlsx', .name_repair = "universal")
+
+# Combine all truck data into a single dataframe
+df <- rbind(df_truck_0001, df_truck_0369, df_truck_1226, df_truck_1442, 
+            df_truck_1478, df_truck_1539, df_truck_1769)
+
+# Merge truck data with driver pay details using Truck ID
+df <- left_join(df, df_pay, by = c('Truck.ID'))
+
+# Extract city names from starting and delivery locations
+df_starting <- df %>%
+  mutate(location = str_trim(gsub(",.*", "", Starting.Location))) %>%
+  count(location, name = "starting_count")
+
+df_delivery <- df %>%
+  mutate(location = str_trim(gsub(",.*", "", Delivery.Location))) %>%
+  count(location, name = "delivery_count")
+
+# Combine and calculate total occurrences of each location
+locations <- full_join(df_starting, df_delivery, by = "location") %>%
+  mutate(total = rowSums(select(., starting_count, delivery_count), na.rm = TRUE))
+
+# Compute driver pay based on miles driven and labor rate
+df_pay <- df %>%
+  group_by(Truck.ID, first, last) %>%
+  summarize(
+    total_miles = sum(Odometer.Ending - Odometer.Beginning, na.rm = TRUE),
+    labor_per_mil = first(labor_per_mil),  # Retrieve pay rate from merged data
+    .groups = 'drop'
+  ) %>%
+  mutate(total_pay = total_miles * labor_per_mil)
+
+# Create a bar chart visualizing driver pay by miles driven
+ggplot(df_pay, aes(
+  x = reorder(paste(first, last), total_pay),  # Order bars by total pay
+  y = total_pay,
+  fill = factor(Truck.ID)  # Different color per Truck ID
+)) +
+  geom_col() +
+  scale_fill_viridis_d(option = "plasma") +  # Slightly different color palette
+  labs(
+    title = "Driver Pay by Total Miles Driven",
+    x = "Driver",
+    y = "Total Pay ($)",
+    fill = "Truck ID"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
