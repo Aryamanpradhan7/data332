@@ -2,7 +2,6 @@
 title: "Text Analysis Report"
 author: "Aryaman Pradhan"
 date: "16th March 2025"
-output: html_document
 ---
 
 
