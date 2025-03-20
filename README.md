@@ -10,9 +10,8 @@ date: "16th March 2025"
 This report presents a text analysis of consumer complaints data. The goal is to explore common issues, sentiment trends, and overall patterns in complaints.
 
 ## Word Cloud
-```{r, echo=FALSE}
-knitr::include_graphics("wordcloud.png")
-```
+![complaints_over_time](https://github.com/user-attachments/assets/7fc79cdd-db42-4ce7-af38-35d08543ca62)
+
 **Observation:** The most frequent words in complaints are prominently displayed. This helps identify key concerns consumers have. 
 
 **Why this was done:** A word cloud is an effective way to visualize the most common words in textual data, highlighting recurring themes in complaints.
