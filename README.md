@@ -1,13 +1,11 @@
 ---
 title: "Text Analysis Report"
 author: "Aryaman Pradhan"
-date: "`r Sys.Date()`"
+date: "16th March 2025"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
 
 ## Introduction
 This report presents a text analysis of consumer complaints data. The goal is to explore common issues, sentiment trends, and overall patterns in complaints.
