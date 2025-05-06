@@ -184,10 +184,3 @@ output$rf_plot <- renderPlot({
 ```
 
 ---
-
-## ✅ Requirements Met
-
-- ✔️ Code snippets only (no graph images)
-- ✔️ All charts and graphs are inside the Shiny app
-- ✔️ Clean folder structure
-- ✔️ Placeholder included for shinyapps.io link
