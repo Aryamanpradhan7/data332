@@ -2,6 +2,9 @@
 
 This project is a Shiny dashboard application that analyzes Uber pickup data in New York City from April to September 2014. The dashboard offers visual insights into trip patterns over time, location, and bases, and includes an interactive prediction model using a random forest classifier.
 
+
+##ShinyApp: https://aryamanpradhan.shinyapps.io/Uber_Assignment/
+
 ## 📁 File Structure
 
 ```
