@@ -6,9 +6,9 @@ This project is a Shiny dashboard application that analyzes Uber pickup data in 
 
 ```
 Uber_App/
-├── app.R
-├── README.md
-└── data/ (loaded dynamically from GitHub)
+├── Uber_Assignment_Aryaman.R
+├── README_UberApp.md
+└── Excel Files
 ```
 
 ## 🌐 Shiny App URL
